@@ -1,0 +1,13 @@
+make a number negative:
+1. convert number to binary
+2. invert bits
+3. add 1 to the end
+
+shifting
+logical : with positive numbers-> shifts including the neg/pos sign
+left shift-> multiply by two
+right shift-> divide by two
+
+arithmentic: übernehmen von neg/pos sign
+
+

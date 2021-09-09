@@ -1,0 +1,90 @@
+Nebenläufigkeit
+ -Thread muss Runnable implementieren
+ -run() wie main-Methode
+ -man startet den Thread mit .start() ( und beendet mit close() ? )
+
+
+Futures- jeder Thread arbeitet für sich alleine
+ -wenn man z.B. mehrere Threads startet , kann es zu einem Deadlock kommen--> der eine Thread wartet darauf
+  dass der nächste fertig ist und das so im Kreis-jeder wartet- verharren im Wartezustand
+ -wie runnable , aber gibt einen Wert zurück- Callable hat ein Ziel
+ -get()- = while(not finished) wait - ist eine extra synchronized Methode
+
+ -komplexe Berechnung, die Zeit braucht, die einen Wert liefert
+ -Methode um Anwendungen zu parallelisieren
+ -Teilberechnung, für die man sehr lange braucht lagert man in einem anderen Thread und lässt es dort parallel rechnen
+  /vorsörgliche Berechnung eines Wertes
+ -wenn man das Ergebnis braucht, kann man darauf zugreifen. Ansonsten muss man warten
+ -Unterschied zu run() und call()- call() liefert ein Ergebnis zurück und run() nicht
+ -call() ist ein funktionales Interface von Callable was man mit java.util.concurrency aufrufen kann
+ -get()-wartet bis der task zu Ende ist mit task.join() und dann wird der Wert returnt
+ -Future f = new Future((Integer) ()->1) : Berechnet den Wert und liefert in dem Fall 1 zurück weil das unser Wert ist
+
+Monitor:
+ -geordnete Zugriffe auf Variablen und Datenaustausch zwischen den Threads mit Monitore und synchronized
+ -ungestörten Zugriff- wenn eine Thread arbeitet , dann darf er nicht gestört werden
+
+ -race condition: man hat Threads , die quasi schneller als sie sollen auf die Variablen zugreifen
+ /Überlappung
+ -synchronized (für Objektmethoden): es darf nicht unterbrochen werden, selbst wenn das andere ein synchronized ist
+  /exklusiver Zugriff = kritischer Bereich
+  -->es darf nur ein Thread auf die Methode zugreifen
+  -->es wird dann thread safe
+  an einem Monitor-Objekt (this bezieht sich darauf)
+  -ohne synchronized- kein Garant, dass es in der richtigen Reihenfolge läuft, wegen Scheduler
+
+ -Prinzip von lock und blocked
+ -wenn ein Thread gerade auf ein Objekt zugreift, dann ist das boolean Attribut locked true
+ -wenn ein anderer Thread darauf zugreifen will, dann ist ja locked true und dementsprechend kommt es in
+  die blockedThread-Queue
+ -wenn Thread fertig ist, dann ist das locked wieder false und das erste in der queue  in blocked wird wieder unlocked()
+  und in den ready pool gelassen, von wo der Thread als nächstes dann  auf das Objekt zugreifen kann
+
+ -synchronized bei Rekursion- wird blockiert-->aber in java sind rekursive Funktionen als synchronized erlaubt
+ -Zähler für synchronized Methoden
+
+
+
+Semaphore:
+ -Austausch von Objekten zwischen Threads
+ -Producer und Consumer-->Thread 1 produziert Objekte einer Klasse Data und übergibt sie einem anderen Thread
+ -2 mögliche Probleme: Producer produziert zu schnell-Puffer voll. muss warten bis -Consumer konsumiert
+  oder Producer zu langsam/ es ist nichts im Puffer- Consumer muss warten
+ -wait() in einem synchronized Kontext und notify: auf das Eintreten bestimmter Bedinungen warten
+ - Lock-Objekt: belegt mit Zuständen "frei" oder "belegt"
+   -->myLock.aquire(), myLock.release()- Semaphore funktioniert wie ein Lock
+   -Lock belegen = "lesen" und Lock freigeben = "schreiben"
+   Semaphore erlaubt aber bis zu n gleichzeitige Zugriffe
+
+   weil Locks häufig genutzt werden- synchronized
+
+
+
+Interrupts: nach einer bestimmten Zeit zu langem Wartens, wird das Programm abgebrochen
+ -timer implementieren
+
+
+Thread-sichere Datenstrukturen und RW-Locks
+ -gemeinsame Datenstruktur, die von mehreren Threads benutzt wird
+ -RW-Lock: 3 Modi: Reader-Modus: es dürfen viele lesen, aber keiner schreiben
+  wenn keiner mehr liest, ist man im free modus, dann kann genau einer anfangen zu schreiben
+ -es wird die Anzahl der reader gezählt in einer variable, je nach Methode startRead() oder enread(), wird die Variable
+  dekrementiert oder inkrementiert. Wenn die Variable 0 ist, wird der writer benachrichtigt notify()
+ -writer prüft ob die Variable 0 ist. Wenn ja: wait(), wenn nicht, wird die Variable -1, was signalisiert dass momentan
+  gerade geschrieben wird
+ -wenn writer zu Ende, dann wird die Variable wieder auf 0 gesetzt und alle anderne werden benachrichtigt. Egal ob writer
+  oder reader
+ -wait() : Reader und Writer, wenn ein anderes gerade im write ist oder Writer(), wenn gerade gelesen wird
+
+
+Threadzustandsdiagramm
+
+
+ thread.stop()- Thread gewaltsam stoppen-Programm aufhängt, dann im Task Manager beenden (gleiches Prinzip)
+ thread.close()-
+ thread.interrupt()-
+
+ synchronized: Problem des kritischen Abschnittes lösen
+
+
+

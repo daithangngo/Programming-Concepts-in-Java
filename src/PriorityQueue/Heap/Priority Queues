@@ -1,0 +1,16 @@
+arbitrary insertion of elements
+sorted removal of elements
+
+Selection-sort:
+best case: O(n)
+worst case: O(n^2)-> O(n + (n-1) + ... + 2 + 1 )
+
+Heap-sort:
+insertion and removal in logarithmic time
+
+
+Heaps:
+-binary trees
+-build: n-times shiftDown(): each elements from deepest height upwards
+-all nodes are either [greater than or equal to](max heaps) or [less than or equal to](min heaps)
+each of its children

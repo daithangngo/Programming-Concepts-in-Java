@@ -1,0 +1,151 @@
+int-Operatoren: NEG, ADD, SUB, MUL, DIV, MOD (aus 2 werden 1)
+
+boolean-Operatoren: NOT, AND, OR
+
+Vergleichs-Operatoren: LESS, LEQ, EQ, NEQ
+
+Laden von Konstanten: CONST i, TRUE, FALSE
+
+Speicher-Operationen: LOAD i, STORE i
+
+Sprung-Befehle: JUMP i, FJUMP i
+
+IO-Befehle: READ, WRITE
+
+Reservierung von Speicher: ALLOC i
+
+Beendung des Programms: HALT
+
+------------------------------------------------------------------------------------------------------------------------
+int n, p, s, q, temp;
+n = readInt();
+p = readInt();
+
+temp = n;
+s = 1;
+while (temp > 0) {
+    s = s * 10;
+    temp = temp / 10;
+}
+
+q = 0;
+while (s > 0) {
+    if (n < p * s) {
+        write(q);
+        q = 0;
+        s = s / 10;
+    }
+    else {
+        n = n - p * s;
+        q = q + 1;
+    }
+}
+write(n);
+
+
+// while (s > 0) => while (0 < s)
+main_loop_cond:
+CONST 0
+LOAD 2
+LESS
+FJUMP main_loop_end
+
+	// if (n < p * s)
+	LOAD 0
+	LOAD 1
+	LOAD 2
+	MUL
+	LESS
+	FJUMP else
+
+		// write(q);
+		LOAD 3
+		WRITE
+
+		// q = 0;
+		CONST 0
+		STORE 3
+
+		// s = s / 10;
+		LOAD 2
+		CONST 10
+		DIV
+		STORE 2
+
+		// skip else
+		JUMP end_if
+
+	else:
+
+		// n = n - p * s;
+		LOAD 0
+		LOAD 1
+		LOAD 2
+		MUL
+		SUB
+		STORE 0
+
+		// q = q + 1;
+		LOAD 3
+		CONST 1
+		ADD
+		STORE 3
+
+	end_if:
+
+	// "continue"
+	JUMP main_loop_cond
+
+main_loop_end:
+
+// write(n);
+LOAD 0
+WRITE
+
+// stop program
+HALT
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+x = x + 1
+LOAD 2
+CONST 1
+ADD
+STORE 2
+
+------------------------------------------------------------------------------------------------------------------------
+if (x < y)
+    y = y - x;
+else
+    x = x - y;
+
+    LOAD 0
+    LOAD 1
+    LESS
+    FJUMP A
+    LOAD 1
+    LOAD 0
+    SUB
+    STORE 1
+    JUMP B
+A:  LOAD 0
+    LOAD 1
+    SUB
+    STORE 0
+B: ..
+------------------------------------------------------------------------------------------------------------------------
+
+while (1 < x)
+    x = x - 1;
+
+A: CONST 1
+    LOAD 0
+    LESS
+    FJUMP B
+    LOAD 0
+    CONST 1
+    SUB
+    STORE 0
+    JUMP A
+B: ...

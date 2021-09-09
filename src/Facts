@@ -1,0 +1,15 @@
+.equals(...) vs '=='
+ -.equals()-Kontentgleichheit; == Referenzgleichheit
+
+pass by value , pass by reference
+ -int a = 5, b = 5 --> pass by value. man gibt dem Attribut einen Wert
+ -int a = 5, b=a -->pass by reference. man übergibt dem b die Speicheradresse von a. Es sind nun 2 pointer vorhanden
+
+for ints default value is 0, for reference types it is null
+
+System.out.println() ruft automatisch eine toString()-Methode auf. Wenn die toString-Methode
+überschrieben wurde, dann ändert sich auch die Ausgabe
+
+
+interfaces können auch Methoden besitzen, die ausgeführt werden können .
+Diese müssen aber mit default gekennzeichnet werden

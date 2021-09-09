@@ -1,0 +1,73 @@
+Recursion
+ -find the way out of a labyrinth- Pathfinderlösung anschauen und verstehen
+
+Tree/Trie
+ -Recursion training
+ -Search
+ -Implement
+ -Delete
+
+Linked List/Doubly Linked List -->generic
+ -Insert
+ -Delete
+ -Search
+
+Hash Map
+ -HashMap<Key, Value>
+ -z.B.im Shop HashMap<Product, AmountLeft>
+ -hashCode()
+ -implement a hash map
+ -wenn man equals() verändert, muss man ebenfalls hashCode() verändern
+ -2 Objecte bei .equals() -->true--> beide Objekte haben den gleichen Hash-Code
+
+Generics
+ -create Generics classes
+ -Generic inheritance (subclass must contain at least many
+
+Polymorphism
+ -overloading
+ -overwriting
+ -static vs dynamic
+ -keyword super
+ -subclass can access the methods of the superclass if it fits
+
+Threads
+ -Multithreading
+ -Theory behind Threading
+ -run() = ist wie die main-Methode
+ -start() = Thread in der main-Methode starten
+ -close() = Thread muss beendet werden
+ -nach dem man start() macht, kommt der Thread in den ready-modus ,
+  wo es darauf wartet bis eine Cpu-Zelle frei ist
+ -Zeitscheibenverfahren(time slice) vs Naives Scheduling
+ -Future
+ -Monitor
+ -Semaphore
+
+Sockets
+ -Server-Client implementieren
+
+Files
+ -Navigation
+
+Streams
+ -wie ein Fließband, wo dem man immer mal was rausnimmt, verändert
+ -1 input - 1 output
+ -API anschauen und sich einige Interfaces merken
+
+Catch, Throw, Finally
+ -Angabe über Fehler im Methodenkopf nötig (außer bei RuntimeException)
+ -Catch: Fehlerbehandlung- man fängt einen Fehler ab
+ -Throw: man wirft bewusst einen Fehler (z.B. if (...) throw new....
+ -Finally: The finally block always executes when the try block exits. -->good practice
+
+Kontrollflussdiagramm
+ -start-Knoten, stop-Knoten
+ -Eingabe: x = read() und Ausgabe write(y) --> Parallelogramm
+ -Zuweisung: x = x+y -->Rechteck
+ -bedingte Zuweisung --> yes /no
+ -Schleife mit Zulauf
+
+
+
+

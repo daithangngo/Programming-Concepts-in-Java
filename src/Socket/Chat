@@ -1,0 +1,101 @@
+package pgdp.chat;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.BindException;
+import java.net.ConnectException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import static pgdp.MiniJava.*;
+
+public class Chat {
+	public static void main(String[] args) {
+		Socket sock = null;
+		boolean server = false;
+
+		while (true) {
+			write("Geben Sie <port> an, um den Chatserver zu starten oder "
+					+ "<host>:<port>, um sich mit einem laufenden Server zu verbinden.");
+			write("Geben Sie zum Beenden exit ein");
+			String input = readString("");
+			if (input.equals("exit")) {
+				System.out.println("Beenden.");
+				return;
+			}
+
+			int posColon = input.indexOf(':');
+			try {
+				if (posColon != -1) {
+					sock = new Socket(
+							InetAddress.getByName(input.substring(0, posColon)),
+							Integer.parseInt(input.substring(posColon + 1)));
+					break;
+				} else {
+					int port = Integer.parseInt(input);
+					ServerSocket serverSock = new ServerSocket(port);
+					write("Server gestartet, erwarte Verbindungen");
+					sock = serverSock.accept();
+					serverSock.close();
+					server = true;
+					break;
+				}
+			} catch (NumberFormatException e) {
+				write("Port ungültig/keine Zahl, versuche es erneut!");
+			} catch (UnknownHostException e) {
+				write("Host unbekannt, versuche es erneut!");
+			} catch (BindException e) {
+				write("Port Binding fehlgeschlagen, Prozess läuft bereits?");
+			} catch (ConnectException e) {
+				write("Verbindung abgelehnt, versuche es erneut!");
+			} catch (IOException e) {
+				write("Ein-/Ausgabefehler, versuche es erneut!");
+			}
+		}
+
+		// Diese Schreibweise ergänzt automatisch um das finally {close}, siehe
+		// https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
+		// Das true in Printwriter bewirkt, dass nach jedem print ein flush
+		// ausgeführt wird
+		try (BufferedReader in = new BufferedReader(
+				new InputStreamReader(sock.getInputStream()));
+				PrintWriter out = new PrintWriter(sock.getOutputStream(),
+						true)) {
+			boolean running = true;
+			if (server) {
+				write("Verbindung hergestellt! Sie können nun etwas senden.");
+				String input = readString("> ");
+				if ("exit".equals(input))
+					running = false;
+				out.println(input);
+			} else {
+				write("Verbindung hergestellt! Erwarte Nachricht vom Server.");
+			}
+			while (running) {
+				String recieved = in.readLine();
+				if ("exit".equals(recieved)) {
+					write("exit empfangen.");
+					break;
+				}
+				write(recieved);
+				String input = readString("> ");
+				if ("exit".equals(input))
+					running = false;
+				out.println(input);
+			}
+			write("Beenden.");
+		} catch (IOException e) {
+			write("Verbindungsfehler, Beenden.");
+		} finally {
+			try {
+				sock.close();
+			} catch (IOException e) {
+				write("Verbindungsabbau fehlgeschlagen.");
+			}
+		}
+	}
+}
