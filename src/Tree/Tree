@@ -1,0 +1,23 @@
+- Trees
+    - Operations:
+        - find
+        - remove
+        - insert
+        - findAll
+    - Binary Search Tree
+        - keys of the left children are smaller or equal
+        - realization of a map
+        - find
+            - returns value or null if not found
+            - worst case a linked list→ O(n)
+        - insert
+            - follow the path starting from the root to find the position where the respective node's place is
+        - remove(k)
+            - find(k)
+            - remove node if no children
+            - node with children case 1: only one external node
+                - replace the node with the external node
+            - node with children case 2: 2 internal nodes
+                - look for the leftmost node and put its value to the intent to delete node
+                - then call the method in case 1 on the leftmost node
+            -

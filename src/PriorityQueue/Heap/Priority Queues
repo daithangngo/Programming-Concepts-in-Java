@@ -14,3 +14,8 @@ Heaps:
 -build: n-times shiftDown(): each elements from deepest height upwards
 -all nodes are either [greater than or equal to](max heaps) or [less than or equal to](min heaps)
 each of its children
+
+
+shiftDown-> O(log n)
+heapSort -> deleteMin() n -times
+-> O(n * log n)

@@ -5,7 +5,12 @@ import java.util.Arrays;
 public class MinHeap {
     public static void main(String[] args) {
         int[] arr = {0, 0, 22, 33, 19, 3, 1999, 1};
-        minHeapSort(arr);
+
+    }
+
+    static int min(int[] arr) {
+        buildHeap(arr);
+        return arr[0];
     }
 
     static void buildHeap(int[] arr) {
@@ -36,12 +41,22 @@ public class MinHeap {
 
     static void minHeapSort(int[] arr) {
         buildHeap(arr);
-        int i = arr.length - 1;
-        while (i >= 0) {
+        for (int i = arr.length - 1; i >= 0; i--) {
             swap(0, i, arr);
-            shiftDown(0, arr);
-            i--;
+            shiftDown(0, i - 1, arr);
         }
         System.out.println(Arrays.toString(arr));
+    }
+
+    static void shiftDown(int i, int indexLast, int[] arr) {
+        if (i * 2 + 1 > indexLast) return;
+        int min = i;
+        if (i * 2 + 2 <= indexLast) {
+            if (arr[i * 2 + 2] < arr[i]) min = i * 2 + 2; //right smaller
+        }
+        if (arr[i * 2 + 1] < arr[i]) min = i * 2 + 1; //left smaller
+        if (min == i) return; // no changes
+        swap(min, i, arr);
+        shiftDown(min, indexLast, arr);
     }
 }

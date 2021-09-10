@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 public class Main {
 
   public static void main(String[] args) {
-    System.out.println(Double.NaN);
     //System.out.println("accaccabccd".matches("(a(a|b)?cc)*d"));
 
     /*
@@ -33,7 +32,6 @@ public class Main {
 
     // Java immer Call-by value
 
-    System.out.println(Arrays.toString(converter(new char[]{'A', 'B',})));
   }
 
   public static char[] converter(char[] charArr){
